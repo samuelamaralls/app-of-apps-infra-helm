@@ -18,8 +18,14 @@ spec:
   syncPolicy:
     automated:
       selfHeal: true
+      prune: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
+    - PruneLast=true
+    - RespectIgnoreDifferences=true
+    - ApplyOutOfSyncOnly=true
+    - ServerSideApply=true
+    - Validate=false
   destination:
     namespace: loki
     server: https://kubernetes.default.svc
