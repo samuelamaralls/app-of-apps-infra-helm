@@ -1,0 +1,8 @@
+gitlabUrl: https://gitlab.thesams.site/ 
+runnerRegistrationToken: "MMXSjHQSh3FWQnQcwaIvdpYtMX3bX1ol1QhFmzYNq9lWsQaQVq4LMkGEyOPHR9tt" #alterar para valor real
+
+runners:
+  tags: "default"
+  locked: false
+  runUntagged: true
+  privileged: true 
