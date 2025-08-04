@@ -1,0 +1,59 @@
+global:
+  edition: ce
+  gitlab:
+    version: 18.2.0
+
+  ## https://docs.gitlab.com/charts/charts/globals#configure-host-settings  
+  hosts:
+    domain: thesams.site
+    hostSuffix:
+    https: true
+    externalIP:
+    ssh:
+    gitlab: {}
+    minio: {}
+    registry: {}
+    tls: {}
+    smartcard: {}
+    kas: {}
+    pages: {}
+    openbao: {}
+
+  ## https://docs.gitlab.com/charts/charts/globals#configure-ingress-settings
+  ingress:
+    apiVersion: ""
+    configureCertmanager: false
+    useNewIngressForCerts: false
+    class: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    enabled: true
+    tls:
+      enabled: true
+      secretName: 
+    path: /
+    pathType: Prefix
+
+nginx-ingress:
+  enabled: false
+
+prometheus:
+  install: false
+
+gitlab-runner:
+  install: false
+
+upgradeCheck:
+  enabled: false
+
+registry:
+  enabled: false
+
+installCertmanager: false
+
+certmanager-issuer:
+  install: false
+  email: dummy@false.com
+
+certmanager:
+  installCRDs: false

@@ -1,0 +1,23 @@
+auth:
+  adminUser: admin
+  adminPassword: admin
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  pathType: ImplementationSpecific
+  hostname: keycloak.thesams.site
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    #nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  tls: true
+postgresql:
+  enabled: true
+  auth:
+    username: bn_keycloak
+    password: "12345678"
+    database: keycloakdb
+
+  persistence:
+    enabled: true              
+    size: 8Gi 

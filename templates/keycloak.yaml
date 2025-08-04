@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - chart: bitnamicharts/keycloak
+      repoURL: registry-1.docker.io
+      targetRevision: 24.8.0
+      type: helm
+      helm:
+        valueFiles:
+          - $values/values/keycloak.yaml
+    - repoURL: 'https://github.com/samuelamaralls/app-of-apps-infra.git'
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keycloak
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

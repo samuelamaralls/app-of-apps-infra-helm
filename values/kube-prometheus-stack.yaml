@@ -1,0 +1,26 @@
+#crds:
+#  enabled: false
+grafana:
+  enabled: true
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+    datasources:
+      enabled: true
+  dashboards:
+    loki:
+      loki-logs:
+        file: /var/lib/grafana/dashboards/loki-logs.json
+      promtail-metrics:
+        file: /var/lib/grafana/dashboards/promtail-metrics.json
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-gateway.loki.svc.cluster.local
+      isDefault: false
+      jsonData:
+        httpHeaderName1: "X-Scope-OrgID"
+      secureJsonData:
+        httpHeaderValue1: "1"

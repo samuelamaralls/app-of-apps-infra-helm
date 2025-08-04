@@ -1,0 +1,21 @@
+controller:
+  config:
+    strict-validate-path-type: "false"
+    
+  metrics:
+    enabled: true
+    port: 10254
+    portName: metrics
+    service:
+      enabled: true
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"  
+      servicePort: 10254
+      type: ClusterIP
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: kube-prometheus-stack
+      namespace: monitoring
+      scrapeInterval: 30s

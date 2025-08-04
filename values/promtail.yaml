@@ -1,0 +1,17 @@
+config:
+  clients:
+    - url: http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push
+      external_labels:
+        cluster: "dev"
+      basic_auth:
+        username: "fake"  # não é usado, mas requerido pelo client se usar headers
+        password: "fake"
+      tenant_id: "1"  # <--- equivalente ao X-Scope-OrgID: 1
+  snippets:
+    pipeline_stages:
+      - docker: {}
+  positions:
+    filename: /tmp/positions.yaml
+  server:
+    http_listen_port: 9080
+    grpc_listen_port: 0
