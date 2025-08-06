@@ -1,17 +1,9 @@
+gitlabUrl: http://gitlab.thesams.site/
+runnerRegistrationToken: "MMXSjHQSh3FWQnQcwaIvdpYtMX3bX1ol1QhFmzYNq9lWsQaQVq4LMkGEyOPHR9tt"
+
 runners:
+  tags: "default"
+  privileged: true
   config: |
     [[runners]]
-      name = "default"
-      url = "http://gitlab.thesams.site/"
-      token = "MMXSjHQSh3FWQnQcwaIvdpYtMX3bX1ol1QhFmzYNq9lWsQaQVq4LMkGEyOPHR9tt"
-      executor = "docker"
       tls_skip_verify = true
-
-      [runners.docker]
-        image = "alpine:latest"
-        privileged = true
-        
-  tags: "default"
-  locked: false
-  runUntagged: true
-  privileged: true
