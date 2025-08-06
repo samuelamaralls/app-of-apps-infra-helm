@@ -6,31 +6,17 @@ global:
   ## https://docs.gitlab.com/charts/charts/globals#configure-host-settings  
   hosts:
     domain: thesams.site
-    hostSuffix:
     https: true
-    externalIP:
-    ssh:
-    gitlab: {}
-    minio: {}
-    registry: {}
-    tls: {}
-    smartcard: {}
-    kas: {}
-    pages: {}
-    openbao: {}
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-ingress-settings
   ingress:
-    apiVersion: ""
-    configureCertmanager: true
-    useNewIngressForCerts: true
     class: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
     enabled: true
     tls:
       enabled: true
-      secretName: 
+      secretName: gitlab-tls # <-- Adicione um nome de segredo aqui
     path: /
     pathType: Prefix
 
