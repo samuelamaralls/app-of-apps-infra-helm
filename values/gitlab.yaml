@@ -3,6 +3,20 @@ global:
   gitlab:
     version: 18.2.0
 
+  registry:
+    enabled: true
+    ingress:
+      enabled: true
+      hosts:
+        - registry.thesams.site
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        cert-manager.io/issuer: ""  #remove sobreescrita do chart
+      tls:
+        - secretName: registry-tls
+          hosts:
+            - registry.thesams.site
+
   ## https://docs.gitlab.com/charts/charts/globals#configure-host-settings  
   hosts:
     domain: thesams.site
@@ -13,6 +27,7 @@ global:
     class: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/issuer: ""  #remove sobreescrita do chart
     enabled: true
     tls:
       enabled: true
@@ -30,9 +45,6 @@ gitlab-runner:
   install: false
 
 upgradeCheck:
-  enabled: false
-
-registry:
   enabled: false
 
 installCertmanager: false

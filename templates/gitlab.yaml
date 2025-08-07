@@ -12,7 +12,7 @@ spec:
     helm:
       valueFiles:
       - $values/values/gitlab.yaml
-  - repoURL: 'https://github.com/samuelamaralls/app-of-apps-infra.git'
+  - repoURL: 'https://github.com/samuelamaralls/app-of-apps-infra-helm.git'
     targetRevision: main
     ref: values
   syncPolicy:
