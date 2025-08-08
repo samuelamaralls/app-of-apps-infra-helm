@@ -11,9 +11,6 @@ rbac:
 
 podSecurityContext:
   runAsUser: 0
-  runAsGroup: 0
-  fsGroup: 0
-  runAsNonRoot: false
 
 containerSecurityContext:
   privileged: true
