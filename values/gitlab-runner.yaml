@@ -8,8 +8,8 @@ serviceAccount:
 rbac:
   create: true
 
-#podSecurityContext:
-#  runAsUser: 0
+podSecurityContext:
+  runAsUser: 0
 
 containerSecurityContext:
   privileged: true
