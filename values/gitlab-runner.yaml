@@ -10,7 +10,10 @@ rbac:
   create: true
 
 podSecurityContext:
+  runAsUser: 0
+  runAsGroup: 0
   fsGroup: 0
+  runAsNonRoot: false
 
 containerSecurityContext:
   privileged: true
@@ -52,5 +55,5 @@ config: |
         
     [runners.feature_flags]
       FF_ENABLE_JOB_TRACE_LOG_ROTATION = true
-      
+
 tags: "default"
