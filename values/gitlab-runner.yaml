@@ -10,7 +10,6 @@ rbac:
   create: true
 
 podSecurityContext:
-  # Remove runAsUser 0 pois pode gerar conflito com políticas restritivas
   fsGroup: 0
 
 containerSecurityContext:
@@ -20,15 +19,15 @@ containerSecurityContext:
 config: |
   concurrent = 10
   check_interval = 0
-
+  
   [session_server]
     session_timeout = 1800
-
+  
   [[runners]]
     name = "my-gitlab-runner"
     executor = "kubernetes"
-    environment = ["DOCKER_DRIVER=overlay2"]
-
+    environment = ["DOCKER_DRIVER=overlay2", "DOCKER_TLS_CERTDIR="]
+    
     [runners.kubernetes]
       namespace = "gitlab-runner"
       privileged = true
@@ -36,10 +35,22 @@ config: |
       poll_timeout = 180
       service_account = "gitlab-runner"
       helper_image = "gitlab/gitlab-runner-helper:x86_64-latest"
-      # Use imagem base do job como docker:latest, não define aqui
-      # image é definida pelo job CI
-
+      
+      # Configurações específicas para Docker-in-Docker
+      [runners.kubernetes.volumes]
+        [[runners.kubernetes.volumes.empty_dir]]
+          name = "docker-certs"
+          mount_path = "/certs/client"
+          medium = "Memory"
+      
+      # Configurações de serviço para DinD
+      [[runners.kubernetes.services]]
+        name = "docker"
+        image = "docker:20-dind"
+        privileged = true
+        command = ["dockerd", "--host=tcp://0.0.0.0:2375", "--tls=false"]
+        
     [runners.feature_flags]
       FF_ENABLE_JOB_TRACE_LOG_ROTATION = true
-
+      
 tags: "default"
