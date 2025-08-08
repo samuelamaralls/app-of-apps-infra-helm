@@ -1,9 +1,48 @@
-gitlabUrl: http://gitlab.thesams.site/
+#gitlabUrl: http://gitlab.thesams.site/
+#runnerRegistrationToken: "GR1348941FtwcvVyXQRHzx4Ce9jbm"
+#
+#runners:
+#  tags: "default"
+#  privileged: true
+#  config: |
+#    [[runners]]
+#      tls_skip_verify = true
+gitlabUrl: "http://gitlab.thesams.site/"
+
+# Token de registro do runner
 runnerRegistrationToken: "GR1348941FtwcvVyXQRHzx4Ce9jbm"
 
-runners:
-  tags: "default"
-  privileged: true
-  config: |
-    [[runners]]
-      tls_skip_verify = true
+# ServiceAccount e RBAC
+serviceAccount:
+  create: true
+  name: gitlab-runner
+
+rbac:
+  create: true
+
+# Configuração do runner (config.toml)
+config: |
+  concurrent = 10
+  check_interval = 0
+  
+  [session_server]
+    session_timeout = 1800
+  
+  [[runners]]
+    name = "my-gitlab-runner"
+    executor = "kubernetes"
+    environment = ["DOCKER_DRIVER=overlay2"]
+    
+    [runners.kubernetes]
+      namespace = "gitlab-runner"
+      privileged = true
+      image_pull_policy = "IfNotPresent"
+      poll_timeout = 180
+      service_account = "gitlab-runner"
+      helper_image = "gitlab/gitlab-runner-helper:x86_64-latest"
+
+    [runners.feature_flags]
+      FF_ENABLE_JOB_TRACE_LOG_ROTATION = true
+
+# Tags do runner
+tags: "default"
