@@ -9,18 +9,28 @@ serviceAccount:
 rbac:
   create: true
 
+podSecurityContext:
+  runAsUser: 0
+  runAsGroup: 0
+  fsGroup: 0
+  runAsNonRoot: false
+
+containerSecurityContext:
+  privileged: true
+  allowPrivilegeEscalation: true
+
 config: |
   concurrent = 10
   check_interval = 0
-  
+
   [session_server]
     session_timeout = 1800
-  
+
   [[runners]]
     name = "my-gitlab-runner"
     executor = "kubernetes"
     environment = ["STORAGE_DRIVER=vfs"]
-    
+
     [runners.kubernetes]
       namespace = "gitlab-runner"
       privileged = true
