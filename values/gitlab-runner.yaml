@@ -58,11 +58,8 @@ serviceAccount:
 rbac:
   create: true
 
-podSecurityContext:
-  runAsUser: 0
-
 containerSecurityContext:
-  privileged: false
+  privileged: true
   allowPrivilegeEscalation: false
 
 config: |
@@ -79,7 +76,7 @@ config: |
     
     [runners.kubernetes]
       namespace = "gitlab-runner"
-      privileged = false
+      privileged = true
       image_pull_policy = "IfNotPresent"
       poll_timeout = 180
       service_account = "gitlab-runner"
