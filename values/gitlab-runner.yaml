@@ -60,7 +60,10 @@ rbac:
 
 containerSecurityContext:
   privileged: true
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
+  capabilities:
+    add:
+      - SYS_ADMIN
 
 config: |
   concurrent = 10
