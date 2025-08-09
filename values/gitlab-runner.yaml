@@ -58,7 +58,7 @@ serviceAccount:
 rbac:
   create: true
 
-containerSecurityContext:
+securityContext:
   privileged: true
   allowPrivilegeEscalation: true
   capabilities:
