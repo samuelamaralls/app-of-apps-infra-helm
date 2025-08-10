@@ -1,53 +1,3 @@
-##CONF DIND
-#gitlabUrl: "http://gitlab.thesams.site/"
-#runnerRegistrationToken: "GR1348941FtwcvVyXQRHzx4Ce9jbm"
-#
-#serviceAccount:
-#  create: true
-#  name: gitlab-runner
-#
-#rbac:
-#  create: true
-#
-#podSecurityContext:
-#  runAsUser: 0
-#
-#containerSecurityContext:
-#  privileged: true
-#  allowPrivilegeEscalation: true
-#
-#config: |
-#  concurrent = 10
-#  check_interval = 0
-#  
-#  [session_server]
-#    session_timeout = 1800
-#  
-#  [[runners]]
-#    name = "my-gitlab-runner"
-#    executor = "kubernetes"
-#    environment = ["DOCKER_DRIVER=overlay2", "DOCKER_TLS_CERTDIR="]
-#    
-#    [runners.kubernetes]
-#      namespace = "gitlab-runner"
-#      privileged = true
-#      image_pull_policy = "IfNotPresent"
-#      poll_timeout = 180
-#      service_account = "gitlab-runner"
-#      helper_image = "gitlab/gitlab-runner-helper:x86_64-latest"
-#      
-#      # Sidecar Docker-in-Docker
-#      [[runners.kubernetes.services]]
-#        name = "docker"
-#        image = "docker:20-dind"
-#        privileged = true
-#        command = ["--host=tcp://0.0.0.0:2375", "--tls=false"]
-#
-#    [runners.feature_flags]
-#      FF_ENABLE_JOB_TRACE_LOG_ROTATION = true
-#
-#tags: "default"
-
 gitlabUrl: "http://gitlab.thesams.site/"
 runnerRegistrationToken: "GR1348941FtwcvVyXQRHzx4Ce9jbm"
 
@@ -60,10 +10,10 @@ rbac:
 
 securityContext:
   privileged: true
-  allowPrivilegeEscalation: true
-  capabilities:
-    add:
-      - SYS_ADMIN
+#  allowPrivilegeEscalation: true
+#  capabilities:
+#    add:
+#      - SYS_ADMIN
 
 config: |
   concurrent = 10
@@ -89,6 +39,10 @@ config: |
       FF_ENABLE_JOB_TRACE_LOG_ROTATION = true
 
 tags: "default"
+
+volumeMounts:
+  - mountPath: /data/cache
+    name: buildkitd
 
 extraContainers:
   - name: buildkitd
@@ -119,9 +73,16 @@ extraContainers:
       - mountPath: /home/user/.local/share/buildkit
         name: buildkitd
 
+#volumes:
+#  - name: buildkitd
+#    emptyDir: {}
+
 volumes:
   - name: buildkitd
-    emptyDir: {}
+    persistentVolumeClaim:
+      claimName: git-runner-cache
+
+
 extraObjects:
   - apiVersion: v1
     kind: Service
@@ -135,3 +96,4 @@ extraObjects:
         - protocol: TCP
           port: 1234
           targetPort: 1234
+          
