@@ -10,10 +10,10 @@ rbac:
 
 securityContext:
   privileged: true
-#  allowPrivilegeEscalation: true
-#  capabilities:
-#    add:
-#      - SYS_ADMIN
+  allowPrivilegeEscalation: true
+  capabilities:
+    add:
+      - SYS_ADMIN
 
 config: |
   concurrent = 10
