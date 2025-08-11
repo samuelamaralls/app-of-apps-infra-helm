@@ -40,9 +40,9 @@ config: |
 
 tags: "default"
 
-volumeMounts:
-  - mountPath: /data/cache
-    name: buildkitd
+#volumeMounts:
+#  - mountPath: /data/cache
+#    name: buildkitd
 
 extraContainers:
   - name: buildkitd
@@ -73,14 +73,14 @@ extraContainers:
       - mountPath: /home/user/.local/share/buildkit
         name: buildkitd
 
-#volumes:
-#  - name: buildkitd
-#    emptyDir: {}
-
 volumes:
   - name: buildkitd
-    persistentVolumeClaim:
-      claimName: git-runner-cache
+    emptyDir: {}
+
+#volumes:
+#  - name: buildkitd
+#    persistentVolumeClaim:
+#      claimName: git-runner-cache
 
 
 extraObjects:
